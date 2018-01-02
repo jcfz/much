@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>首页 - ${site.name} - Powered by JEECMS</title>
+<meta http-equiv="keywords" content="${site.keywords!}"/>
+<meta http-equiv="description" content="${site.description!}"/>
+<script src="${resSys}/jquery.js" type="text/javascript"></script>
+<script src="${resSys}/front.js" type="text/javascript"></script>
+<script type="text/javascript" src="/${res}/js/jquery.SuperSlide.js"></script>
+<link type="text/css" rel="stylesheet" href="/${res}/css/home.css" />
+
+<!--[if lt IE 9]> 
+<script src="/${res}/js/html5shiv.min.js"></script>
+<script src="/${res}/js/respond.min.js"></script>
+<![endif]-->
+<script type="text/javascript">
+$(function() {
+	Cms.siteFlow("${base}", location.href, document.referrer, "${site.config.flowSwitch?string}");
+	$.cookie("_site_id_cookie","${site.id!}",{path: '${base}' });
+});
+</script>
+<head>
+<body>
+
+<header class="header rel">
+  <div class="container clearfix">
+    <a class="logo" href="${base}/"></a>
+    <div class="header-r">     
+        <nav class="nav">
+        <ul class="menu">
+        <li><a href="${base}/login.jspx">分销商平台</a></li>
+         <li><a href="${base}/jeeadmin/jeecms/index.do">供应商平台</a></li>
+        </ul>
+        </nav>
+      
+	  
+    </div> 
+  </div>
+</header>
+<div class="main container home-main clearfix">
+
+  <section class="home-top clearfix">
+    <div style="margin:0 auto;"><img src="${base}/r/cms/www/index_bg.jpg"/></div>
+  </section>
+  
+ 
+</div>
+[#include "../include/footer.html"/]
+[#include "../include/right-fixed.html"/]
+</body>
+</html>

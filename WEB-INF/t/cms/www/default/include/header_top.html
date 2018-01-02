@@ -1,0 +1,20 @@
+<link rel="stylesheet" type="text/css" href="/${res}/css/login.css" />
+<script>
+function qkeypress(){
+	var q=$("input[name=q]");
+	if(q.val().trim()!=""){
+		$("input[name=q]").autocomplete("enable");
+	}else{
+		$("input[name=q]").autocomplete("disable");
+	}
+}
+</script>
+<header class="header rel">
+  <div class="container clearfix">
+    <a class="logo" href="${base}/"></a>
+    
+    <div class="header-r">     
+       
+    </div> 
+  </div>
+</header>

@@ -1,0 +1,186 @@
+	<#assign cc="frame:content_main,content:v_left,content:v_tree,content:v_tree_channels,content:v_list,content:o_generateTags,content:v_check_records,topic:by_channel,content:v_tree_radio,content:v_origin_list"/>
+	<#assign mc="frame:maintain_main,frame:maintain_left,frame:maintain_right"/>
+	<#assign uc="frame:user_main,frame:user_left,frame:user_right"/>
+	<#assign ec="frame:expand_left,frame:expand_main,frame:expand_right"/>
+	<#assign sc="frame:statistic_main,frame:statistic_left,frame:statistic_right"/>
+	<#assign configc="frame:config_main,frame:config_left,frame:config_right"/>
+	<#assign tc="template:template_main,template:v_left,template:v_tree,template:v_list"/>
+	<#assign rc="resource:resource_main,resource:v_left,resource:v_tree,resource:v_list"/>
+	<#assign ssc="site:site_main,site:v_left,site:v_tree,site:v_list,site:v_checkDomain,site:v_checkMaster"/>
+	<#assign static="static"/>
+	<#assign words="words"/>
+	<#assign data="data"/>
+	<#assign interactive="interactive"/>
+	<#assign acquisition="acquisition"/>
+	<#assign suc="frame:supply_user_main,frame:supply_user_left,frame:supply_user_right"/>
+	<SCRIPT type="text/javascript">
+		var setting = {
+			check: {
+				enable: true
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			}
+		};
+		var zNodes =[
+            { id:1, pId:0, name:"<@s.m 'global.selectall'/>", open:true,perm:"index,map,top,main,left,right,message:v_countUnreadMsg"},
+			{ id:11, pId:1, name:"<@s.m 'cmsStatic.index'/>"},
+
+			{ id:111, pId:11, name:"<@s.m 'cmsPersonal.function'/>"},
+			{ id:1111, pId:111, name:"<@s.m 'global.view'/>",perm:"personal:v_profile,personal:v_checkPwd"},
+			{ id:1112, pId:111, name:"<@s.m 'global.edit'/>",perm:"personal:o_profile"},
+			
+			{ id:12, pId:1, name:"<@s.m 'cms.function.content'/>"},
+			{ id:121, pId:12, name:"<@s.m 'global.add'/>",perm:"content:v_add,${cc}"},
+			{ id:122, pId:12, name:"<@s.m 'global.save'/>",perm:"content:o_save,content:o_upload_media,content:o_upload_attachment,content:o_upload_docs,content:o_upload_doc,fck:upload,ueditor:*,common:*,${cc}"},
+			{ id:123, pId:12, name:"<@s.m 'global.edit'/>",perm:"content:v_edit,${cc}"},
+			{ id:124, pId:12, name:"<@s.m 'global.update'/>",perm:"content:o_update,content:o_upload_media,content:o_upload_attachment,content:o_upload_docs,content:o_upload_doc,fck:upload,ueditor:*,common:*,${cc}"},
+			{ id:125, pId:12, name:"<@s.m 'global.delete'/>",perm:"content:v_delete,${cc}"},
+			{ id:1251, pId:12, name:"<@s.m 'global.delete.submit'/>",perm:"content:o_delete,${cc}"},
+			{ id:126, pId:12, name:"<@s.m 'content.opt.view'/>",perm:"content:v_view,${cc}"},
+			{ id:127, pId:12, name:"<@s.m 'content.opt.move'/>",perm:"content:v_move,${cc}"},
+			{ id:1271, pId:12, name:"<@s.m 'content.opt.move.submit'/>",perm:"content:o_move,${cc}"},
+			{ id:128, pId:12, name:"<@s.m 'content.opt.copy'/>",perm:"content:v_copy,${cc}"},
+			{ id:1281, pId:12, name:"<@s.m 'content.opt.copy.submit'/>",perm:"content:o_copy,${cc}"},
+			{ id:129, pId:12, name:"<@s.m 'content.opt.check'/>",perm:"content:v_check,${cc}"},
+			{ id:1291, pId:12, name:"<@s.m 'content.opt.check.submit'/>",perm:"content:o_check,${cc}"},
+			{ id:1210, pId:12, name:"<@s.m 'content.opt.reject'/>",perm:"content:v_reject,${cc}"},
+			{ id:12101, pId:12, name:"<@s.m 'content.opt.reject.submit'/>",perm:"content:o_reject,${cc}"},
+			{ id:1211, pId:12, name:"<@s.m 'content.opt.submit'/>",perm:"content:v_submit,${cc}"},
+			{ id:12111, pId:12, name:"<@s.m 'content.opt.submit.submit'/>",perm:"content:o_submit,${cc}"},
+			{ id:1212, pId:12, name:"<@s.m 'content.opt.static'/>",perm:"content:o_static,${cc}"},
+			{ id:1215, pId:12, name:"<@s.m 'content.opt.saveTopLevel'/>",perm:"content:v_priority,${cc}"},
+			{ id:12151, pId:12, name:"<@s.m 'content.opt.saveTopLevel.submit'/>",perm:"content:o_priority,${cc}"},
+			{ id:1216, pId:12, name:"<@s.m 'content.opt.sendtotopic'/>",perm:"content:v_send_to_topic,${cc}"},
+			{ id:12161, pId:12, name:"<@s.m 'content.opt.sendtotopic.submit'/>",perm:"content:o_send_to_topic,${cc}"},
+			{ id:12162, pId:12, name:"<@s.m 'content.opt.pigeonhole'/>",perm:"content:v_pigeonhole,${cc}"},
+			{ id:12163, pId:12, name:"<@s.m 'content.opt.pigeonhole.submit'/>",perm:"content:o_pigeonhole,${cc}"},
+			{ id:12164, pId:12, name:"<@s.m 'content.opt.unpigeonhole'/>",perm:"content:v_unpigeonhole,${cc}"},
+			{ id:12165, pId:12, name:"<@s.m 'content.opt.unpigeonhole.submit'/>",perm:"content:o_unpigeonhole,${cc}"},
+			{ id:12166, pId:12, name:"<@s.m 'content.opt.sendweixin'/>",perm:"content:v_send_to_weixin,${cc}"},
+			{ id:12167, pId:12, name:"<@s.m 'content.opt.sendweixin.submit'/>",perm:"content:o_sendToWeixin,${cc}"},
+			
+			{ id:1217, pId:12, name:"<@s.m 'cmsTopic.function'/>"},
+			{ id:12170, pId:1217, name:"<@s.m 'global.list'/>",perm:"topic:v_list,${cc}"},
+			{ id:12171, pId:1217, name:"<@s.m 'global.add'/>",perm:"topic:v_add,${cc}"},
+			{ id:12172, pId:1217, name:"<@s.m 'global.save'/>",perm:"topic:o_save,${cc}"},
+			{ id:12173, pId:1217, name:"<@s.m 'global.edit'/>",perm:"topic:v_edit,${cc}"},
+			{ id:12174, pId:1217, name:"<@s.m 'global.update'/>",perm:"topic:o_update,${cc}"},
+			{ id:12175, pId:1217, name:"<@s.m 'global.delete'/>",perm:"topic:o_delete,${cc}"},
+			{ id:12176, pId:1217, name:"<@s.m 'global.saveOrder'/>",perm:"topic:o_priority,${cc}"},
+
+			{ id:15, pId:1, name:"<@s.m 'cms.function.user'/>"},
+			
+			{ id:151, pId:15, name:"<@s.m 'cmsMember.function'/>"},
+			{ id:1510, pId:151, name:"<@s.m 'global.list'/>",perm:"member:v_list,member:v_check_username,${uc}"},
+			{ id:1511, pId:151, name:"<@s.m 'global.add'/>",perm:"member:v_add,${uc}"},
+			{ id:1512, pId:151, name:"<@s.m 'global.save'/>",perm:"member:o_save,${uc}"},
+			{ id:1513, pId:151, name:"<@s.m 'global.edit'/>",perm:"member:v_edit,${uc}"},
+			{ id:1514, pId:151, name:"<@s.m 'global.update'/>",perm:"member:o_update,${uc}"},
+			{ id:1515, pId:151, name:"<@s.m 'global.delete'/>",perm:"member:o_delete,${uc}"},
+			{ id:1516, pId:151, name:"<@s.m 'global.check'/>",perm:"member:o_check,${uc}"},
+			
+			{ id:152, pId:15, name:"<@s.m 'cmsGroup.function'/>"},
+			{ id:1520, pId:152, name:"<@s.m 'global.list'/>",perm:"group:v_list,group:v_site_list,group:v_site_contri_list,group:v_channels_add,group:v_channels_edit,${uc}"},
+			{ id:1521, pId:152, name:"<@s.m 'global.add'/>",perm:"group:v_add,${uc}"},
+			{ id:1522, pId:152, name:"<@s.m 'global.save'/>",perm:"group:o_save,group:v_check_name,${uc}"},
+			{ id:1523, pId:152, name:"<@s.m 'global.edit'/>",perm:"group:v_edit,${uc}"},
+			{ id:1524, pId:152, name:"<@s.m 'global.update'/>",perm:"group:o_update,group:v_check_name,${uc}"},
+			{ id:1525, pId:152, name:"<@s.m 'global.delete'/>",perm:"group:o_delete,${uc}"},
+			{ id:1527, pId:152, name:"<@s.m 'global.saveOrder'/>",perm:"group:o_priority,${uc}"},
+
+			{ id:153, pId:15, name:"<@s.m 'cmsAdminGlobal.function'/>"},
+			{ id:1530, pId:153, name:"<@s.m 'global.list'/>",perm:"admin_global:v_list,admin_global:v_channels_add,admin_global:v_channels_edit,admin_global:v_check_username,admin_global:v_check_email,admin_global:v_depart_add,admin_global:v_site_edit,admin_global:v_site_add"},
+			{ id:1531, pId:153, name:"<@s.m 'global.add'/>",perm:"admin_global:v_add,${uc}"},
+			{ id:1532, pId:153, name:"<@s.m 'global.save'/>",perm:"admin_global:o_save,${uc}"},
+			{ id:1533, pId:153, name:"<@s.m 'global.edit'/>",perm:"admin_global:v_edit,${uc}"},
+			{ id:1534, pId:153, name:"<@s.m 'global.update'/>",perm:"admin_global:o_update,${uc}"},
+			{ id:1535, pId:153, name:"<@s.m 'global.delete'/>",perm:"admin_global:o_delete,${uc}"},
+
+			{ id:154, pId:15, name:"<@s.m 'cmsAdminLocal.function'/>"},
+			{ id:1540, pId:154, name:"<@s.m 'global.list'/>",perm:"admin_local:v_list,admin_local:v_channels_add,admin_local:v_channels_edit,admin_local:v_check_username,admin_local:v_check_email,admin_local:v_depart_add"},
+			{ id:1541, pId:154, name:"<@s.m 'global.add'/>",perm:"admin_local:v_add,${uc}"},
+			{ id:1542, pId:154, name:"<@s.m 'global.save'/>",perm:"admin_local:o_save,${uc}"},
+			{ id:1543, pId:154, name:"<@s.m 'global.edit'/>",perm:"admin_local:v_edit,${uc}"},
+			{ id:1544, pId:154, name:"<@s.m 'global.update'/>",perm:"admin_local:o_update,${uc}"},
+			{ id:1545, pId:154, name:"<@s.m 'global.delete'/>",perm:"admin_local:o_delete,${uc}"},
+
+			{ id:155, pId:15, name:"<@s.m 'cmsRole.function'/>"},
+			{ id:1550, pId:155, name:"<@s.m 'global.list'/>",perm:"role:v_list,role:v_tree,${uc}"},
+			{ id:1551, pId:155, name:"<@s.m 'global.add'/>",perm:"role:v_add,${uc}"},
+			{ id:1552, pId:155, name:"<@s.m 'global.save'/>",perm:"role:o_save,${uc}"},
+			{ id:1553, pId:155, name:"<@s.m 'global.edit'/>",perm:"role:v_edit,${uc}"},
+			{ id:1554, pId:155, name:"<@s.m 'global.update'/>",perm:"role:o_update,${uc}"},
+			{ id:1555, pId:155, name:"<@s.m 'global.delete'/>",perm:"role:o_delete,${uc}"},
+			{ id:1556, pId:155, name:"<@s.m 'department.member.function'/>",perm:"role:v_list_members,role:o_delete_member,${uc}"},
+
+			{ id:157, pId:15, name:"<@s.m 'cms.account.function'/>"},
+			{ id:1571, pId:157, name:"<@s.m 'global.list'/>",perm:"account:v_list,${uc}"},
+			{ id:1572, pId:157, name:"<@s.m 'global.delete'/>",perm:"account:o_delete,${uc}"},
+
+			{ id:158, pId:15, name:"<@s.m 'cmsLog.function'/>"},
+			{ id:1581, pId:158, name:"<@s.m 'cmsLog.function.operating'/>",perm:"log:v_list_operating,${uc}"},
+			{ id:1581, pId:158, name:"<@s.m 'cmsLog.function.loginSuccess'/>",perm:"log:v_list_login_success,${uc}"},
+			{ id:1581, pId:158, name:"<@s.m 'cmsLog.function.loginFailure'/>",perm:"log:v_list_login_failure,${uc}"},
+			{ id:1582, pId:158, name:"<@s.m 'global.delete'/>",perm:"log:o_delete_operating,log:o_delete_operating_batch,log:o_delete_login_success,log:o_delete_login_success_batch,log:o_delete_login_failure,log:o_delete_login_failure_batch,${uc}"},
+
+			{ id:159, pId:15, name:"<@s.m 'cmsMessage.function'/>"},
+			{ id:1590, pId:159, name:"<@s.m 'global.list'/>",perm:"message:v_list,message:v_read,message:v_findUser,${uc}"},
+			{ id:1591, pId:159, name:"<@s.m 'global.add'/>",perm:"message:v_add,${uc}"},
+			{ id:1592, pId:159, name:"<@s.m 'global.save'/>",perm:"message:v_save,message:v_send,message:v_tosend,message:v_forward,message:v_reply,message:v_trash,message:v_revert,message:v_empty,${uc}"},
+			{ id:1593, pId:159, name:"<@s.m 'global.edit'/>",perm:"message:v_edit,${uc}"},
+			{ id:1594, pId:159, name:"<@s.m 'global.update'/>",perm:"message:o_update,${uc}"},
+			{ id:1595, pId:159, name:"<@s.m 'global.delete'/>",perm:"message:o_delete,${uc}"},
+			
+			{ id:1510, pId:15, name:"角色管理(本站)"},
+			{ id:15100, pId:1510, name:"<@s.m 'global.list'/>",perm:"supply_role:v_list,supply_role:v_tree,${suc}"},
+			{ id:15101, pId:1510, name:"<@s.m 'global.add'/>",perm:"supply_role:v_add,${suc}"},
+			{ id:15102, pId:1510, name:"<@s.m 'global.save'/>",perm:"supply_role:o_save,${suc}"},
+			{ id:15103, pId:1510, name:"<@s.m 'global.edit'/>",perm:"supply_role:v_edit,${suc}"},
+			{ id:15104, pId:1510, name:"<@s.m 'global.update'/>",perm:"supply_role:o_update,${suc}"},
+			{ id:15105, pId:1510, name:"<@s.m 'global.delete'/>",perm:"supply_role:o_delete,${suc}"},
+			{ id:15106, pId:1510, name:"<@s.m 'department.member.function'/>",perm:"supply_role:v_list_members,supply_role:o_delete_member,${suc}"},
+			
+			{ id:17, pId:1, name:"<@s.m 'cms.function.data'/>"},
+			
+			{ id:171, pId:17, name:"<@s.m 'statistic.function.member'/>",perm:"statistic:member:v_list,${sc}"},
+			{ id:172, pId:17, name:"<@s.m 'cms.function.contentstatic'/>"},
+			{ id:1721, pId:172, name:"<@s.m 'statistic.function.content'/>",perm:"statistic:content:v_list,${sc}"},
+			{ id:1722, pId:172, name:"<@s.m 'cms.workload.statistic.function'/>",perm:"workloadstatistic:v_list,${sc}"},
+			{ id:173, pId:17, name:"<@s.m 'cms.function.interactive'/>"},
+			{ id:1731, pId:173, name:"<@s.m 'statistic.function.comment'/>",perm:"statistic:comment:v_list,${sc}"},
+			{ id:1732, pId:173, name:"<@s.m 'statistic.function.guestbook'/>",perm:"statistic:guestbook:v_list,${sc}"},
+			
+			{ id:174, pId:17, name:"<@s.m 'cms.function.flow'/>"},
+			{ id:1741, pId:174, name:"<@s.m 'statistic.function.channel'/>",perm:"statistic:channel:v_list,${sc}"},
+			{ id:1742, pId:174, name:"<@s.m 'statistic.function.trend'/>",perm:"flow:pv:v_list,${sc}"},
+			{ id:1743, pId:174, name:"<@s.m 'statistic.function.source'/>",perm:"flow:source:v_list,${sc}"},
+			{ id:1743, pId:174, name:"<@s.m 'cmsAccess.engine'/>",perm:"flow:source:v_list,${sc}"},
+			{ id:1744, pId:174, name:"<@s.m 'cmsAccess.keyword'/>",perm:"flow:source:v_list,${sc}"},
+			{ id:1745, pId:174, name:"<@s.m 'cmsAccess.externallink'/>",perm:"flow:source:v_list,${sc}"},
+			{ id:1746, pId:174, name:"<@s.m 'cmsAccess.area'/>",perm:"flow:area:v_list,${sc}"},
+			{ id:1747, pId:174, name:"<@s.m 'cmsAccess.visitor'/>",perm:"flow:visitor:v_list,${sc}"},
+			{ id:1748, pId:174, name:"<@s.m 'cmsAccess.pages'/>",perm:"flow:pages:v_list,${sc}"},
+			{ id:1749, pId:174, name:"<@s.m 'cmsAccess.enterpages'/>",perm:"flow:enterpage:v_list,${sc}"},
+			{ id:175, pId:17, name:"<@s.m 'cms.content.rank'/>",perm:"content:rank_list,${sc}"},
+			
+			{ id:20, pId:1, name:"<@s.m 'cms.function.config'/>"},
+			{ id:201, pId:20, name:"<@s.m 'cmsSiteConfig.function'/>"},
+			{ id:2011, pId:201, name:"<@s.m 'global.view'/>",perm:"site_config:v_base_edit,${configc}"},
+			{ id:2012, pId:201, name:"<@s.m 'global.update'/>",perm:"site_config:o_base_update,${configc}"},
+			
+
+			
+			];
+		$(document).ready(function(){
+			ztree =$.fn.zTree.init($("#tree"), setting, zNodes);
+		});
+	</SCRIPT>
+
+<div class="content_wrap">
+	<div class="zTreeDemoBackground left">
+		<ul id="tree" class="ztree"></ul>
+	</div>
+</div>

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="com.jeecms.cms.entity.main">
+	<class name="ContentPlanPrice" table="jc_content_plan_price">
+		<meta attribute="sync-DAO">false</meta>
+		<cache usage="read-write" />
+
+		<id name="id" type="java.lang.Integer" column="id">
+			<generator class="identity" />
+		</id>
+		
+		<property name="type" column="type" type="java.lang.Integer"
+			not-null="true" length="11" />
+		<property name="name" column="name" type="java.lang.String"
+			not-null="true" length="45" />
+		<property name="price" column="price" type="java.lang.Double"
+			not-null="true" length="11" />
+		<property name="rebate" column="rebate" type="java.lang.Double"
+			not-null="true" length="11" />
+		<property name="roomPrice" column="room_price" type="java.lang.Double"
+			not-null="true" length="11" />
+		<property name="number" column="number" type="java.lang.Integer"
+			not-null="true" length="4" />
+		<property name="isDefault" column="is_default" type="java.lang.Integer"
+			not-null="true" length="1" />
+		<property name="linePromotion" column="line_promotion" type="java.lang.Integer"
+			not-null="true" length="1" />
+		<many-to-one name="contentPlan" column="content_plan_id" class="ContentPlan"
+			not-null="true"></many-to-one>
+		
+	</class>
+</hibernate-mapping>

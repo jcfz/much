@@ -1,0 +1,444 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>${site.name} - Powered by JEECMS</title> <script
+		src="${resSys}/jquery.js" type="text/javascript"></script>
+	<script src="${resSys}/front.js" type="text/javascript"></script>
+
+	<link type="text/css" rel="stylesheet" href="/${res}/css/index.css" />
+
+	<!--[if lt IE 9]> 
+<script src="/${res}/js/html5shiv.min.js"></script>
+<script src="/${res}/js/respond.min.js"></script>
+<![endif]-->
+
+	<script type="text/javascript">
+		function randomReward() {
+			$.get("${base}/reward/random.jspx", {}, function(data) {
+				$("#rewardAmount").val(data);
+			});
+		}
+
+		function changeAmountSubmit(value) {
+			$("#rewardAmount").val(value);
+			$("#jvForm").submit();
+		}
+		function minusNumber(c,price,price_type){
+			var num=$(c).next().find('input').val();
+			
+			if(num>0){
+				//$("#n_"+price_type+"_"+num).remove();
+				$("#user_info tbody[price_type='"+price_type+"']:last").remove();
+				num--;
+				$(c).next().find('input').val(num);
+				$(c).parent().parent().find("#total").html(num*price);
+				totalPrice();
+				sortTable();
+			}
+			
+		}
+		function plusNumber(c,price,price_type){
+			var num=$(c).prev().find('input').val();
+			num++;
+			$(c).prev().find('input').val(num);
+			$(c).parent().parent().find("#total").html(num*price);
+			var name =$(c).parent().parent().find("td").eq(0).html();
+			$("#user_info").append("<tbody price='"+price+"' price_type='"+price_type+"' id='n_"+price_type+"_"+num+"'><tr><td><span onclick='deleteColumn(this,"+price+","+price_type+")'>X</span></td><td>"+num+"</td><td>"+name+"</td><td><input id='name' name='name' onChange='addUserInfo()'/></td><td><select id='sex' name='sex' onChange='addUserInfo()'><option value='0'>未知</option><option value='1'>男</option><option value='2'>女</option></select></td><td><select id='cno' name='cno' onChange='addUserInfo()'><option value='1'>身份证</option><option value='2'>护照</option><option value='0'>其他</option></select></td><td><input id='cID' name='cID' onChange='addUserInfo()'/></td><td><input id='mobile' name='mobile' onChange='addUserInfo()'/></td><td><input id='roomAddPrice' name='roomAddPrice' type='checkbox' onChange='addUserInfo()'/></td></tr><tr><td></td><td colspan='8'>备注：<textarea id='remark' name='remark' onChange='addUserInfo()'></textarea></td></tr><tr><td></td><td colspan='8'><input type='button' value='接送设置'/></td></tr></tbody>");
+			totalPrice();
+			sortTable();
+			
+		}
+		
+		function deleteColumn(c,price,p_type){
+			$(c).parent().parent().parent().remove();
+			var num =$("#priceInfo tbody tr[id='p_"+p_type+"']").find("input").val();
+			if(num>0){
+				num--;
+				$("#priceInfo tbody tr[id='p_"+p_type+"']").find("input").val(num);
+				$("#priceInfo tbody tr[id='p_"+p_type+"']").find("#total").html(num*price);
+				totalPrice();
+			}
+			sortTable();
+		}
+		
+		
+		
+		function sortTable() {
+			var j=1;
+			var o_size = $("#user_info tbody[price_type='0']").size();
+			var t_size = $("#user_info tbody[price_type='1']").size();
+			var th_size = $("#user_info tbody[price_type='2']").size();
+			
+			for(var i=0;i<$("#user_info tbody[price_type='0']").size();i++){
+				$("#user_info tbody[price_type='0']").eq(i).find('td').eq(1).html(j);	
+				j++;
+			}
+			
+			for(var i=0;i<$("#user_info tbody[price_type='1']").size();i++){
+				$("#user_info tbody[price_type='1']").eq(i).find('td').eq(1).html(j);	
+				j++;
+			}
+			
+			for(var i=0;i<$("#user_info tbody[price_type='2']").size();i++){
+				$("#user_info tbody[price_type='2']").eq(i).find('td').eq(1).html(j);	
+				j++;
+			}
+			$("#user_info").append($("#user_info tbody[price_type='0']"));
+			$("#user_info").append($("#user_info tbody[price_type='1']"));
+			$("#user_info").append($("#user_info tbody[price_type='2']"));
+			/* alert(oneTbody);
+			$("#user_info tbody[price_type='1']").each(function (index, item) {
+				$(this).find('td').eq(1).html(j);
+				
+				j++;
+		     });
+			$("#user_info tbody[price_type='2']").each(function (index, item) {
+				$(this).find('td').eq(1).html(j);
+				
+				j++;
+		     });  */
+			addUserInfo();
+			
+		}
+		
+		function changePrice(c,price,price_type){
+			var num = $(c).val();
+			$(c).parent().parent().parent().find("#total").html(num*price);
+			totalPrice();
+		}
+		
+		function addUserInfo(){
+				var s='';
+				$("#user_info tbody").each(function (index, item) {
+					var obj = $(this);
+					var price_type=obj.attr("price_type");
+					var name=obj.find("input").eq(0).val();
+					var cID=obj.find("input").eq(1).val();
+					var mobile=obj.find("input").eq(2).val();
+					var sex=obj.find("select").eq(0).val();
+					var cno=obj.find("select").eq(1).val();
+					var add_price=obj.find('input').eq(3).filter(':checked').val();
+					var remark=obj.find("textarea").eq(0).val();
+					
+					if(name!=''){
+						s+=	price_type+","+name+","+sex+","+cno+","+cID+","+mobile+","+remark+","+add_price+";"
+					}
+			     });
+				$("#userInfo").val(s);
+			
+			
+		}
+		
+		function addMend(){
+			$("#mend_info").append("<tbody><tr><td>（<span style='color:red;'>*</span>）项目</td><td><input id='pricename' name='pricename' type='text' value='' class='required' onchange='addMendInfo()'/></td><td>（<span style='color:red;'>*</span>）金额</td><td><input id='price' name='price' type='text' value='' onchange='addMendInfo()' /></td><td><span  onclick='deleteMend(this)'>X</span></td></tr></tbody>");
+		}
+		
+		function addMendInfo(){
+			var s='';
+			$("#mend_info tbody").each(function (index, item) {
+				
+				var name=$(this).find("input").eq(0).val();
+				var price=$(this).find("input").eq(1).val();
+				
+				if(name!=''&price!=''){
+					s+=	name+","+price+";"
+				}
+		     });
+			$("#mendInfo").val(s);	
+	}
+		function deleteMend(o){
+			$(o).parent().parent().parent().remove();
+			addMendInfo();
+		}
+		function totalPrice(){
+			var one_total=$("#priceInfo tbody tr").eq(0).find("#total").text();
+			var two_total=$("#priceInfo tbody tr").eq(1).find("#total").text();
+			var three_total=$("#priceInfo tbody tr").eq(2).find("#total").text();
+			if (two_total!=''){
+				two_total = parseInt(two_total);
+			}
+			if (three_total!=''){
+				three_total = parseInt(three_total);
+			}
+			$("#amount").val(parseInt(one_total)+two_total+three_total);
+		}
+	</script>
+	<style>
+.reward-btn {
+	float: left;
+	box-sizing: boder-box;
+	cursor: pointer;
+	width: 50%;
+	background-color: #e7e7e7;
+	color: #000;
+	line-height: 44px;
+	margin-top: 30px;
+	font-size: 18px;
+}
+
+.br {
+	border-right: 8px solid #fff;
+}
+
+.bl {
+	border-left: 8px solid #fff;
+}
+
+.reward-btn:hover {
+	background-color: #38afe7;
+	color: #ffffff;
+}
+
+.reward-payBtn {
+	width: 100%;
+	cursor: pointer;
+	background-color: #38afe7;
+	color: #ffffff;
+	-webkit-box-sizing: boder-box;
+	line-height: 44px;
+	margin-top: 30px;
+	font-size: 16px;
+}
+#ulSeatLsit{
+
+}
+#ulSeatLsit li{
+	margin-top:5px;
+	list-style-type: none;
+    text-align: center;
+	
+	float:left;
+	width:55px;
+	
+}
+#ulSeatLsit li.s_hover{
+	background-color:red;	
+}
+#ulSeatLsit li.s_sel{
+	background-color:blue;	
+}
+#ulSeatLsit li.no_table{
+	background-color:#fff;	
+}
+
+</style>
+	<head>
+
+<body style="background-color: #f7f7f7;">
+	[#include "../include/header.html"/]
+	
+	<div class="main container clearfix">
+	<form action="${base}/content/charge.jspx" method="post">
+		<section class="content_w850">
+		<h1>${content.title}</h1>
+		<div class="content-inf">
+			发布时间：${content.releaseDate}
+			<div class="content-action">刷新</div>
+		</div>
+		<div>
+		<br/>
+		</div>
+
+		<section class="tag clearfix" id="xlts">
+		<div class="tag-nav">
+			<h1>票价信息</h1>
+		</div>
+		<div class="content-txt">
+		<table id='priceInfo' border='1' width='100%'>
+		<thead>
+		<tr>
+			<th>票种</th><th>价格</th><th>补房差</th><th>购票人数</th><th>小计</th>
+		</tr>
+		</thead>
+		<tbody>
+			[#list contentPlan.contentPlanPrices as p]
+			<tr id='p_${p.type}'><td>${p.name}</td><td><span style='color:red;'>${p.price}</span></td><td>${p.roomPrice}</td><td><span id="minus" onclick="minusNumber(this,${p.price},${p.type});" style="margin:5px;padding:5px;border:1px solid #e7e7e7">-</span><span><input id='number' value='0' size='3' onChange="changePrice(this,${p.price},${p.type})"/></span><span id="plus" onclick="plusNumber(this,${p.price},${p.type})" style="margin:5px;padding:5px;border:1px solid #e7e7e7">+</span></td><td><span id='total' style='color:red;'>0</span></td></tr>
+			[/#list]
+		</tbody>
+		</table>
+		</div>
+		</section> 
+		
+		<section class="tag clearfix" id="xlts">
+		<div class="tag-nav">
+			<h1>游客信息</h1>
+		</div>
+		<div class="content-txt">
+		<table border='1' width='100%' id="user_info">
+		
+		
+		<thead>
+		<tr>
+			<th>删除</th><th>序号</th><th>价格类型</th><th>姓名</th><th>性别</th><th>证件类型</th><th>证件号</th><th>手机号码</th><th>补房</th>
+		</tr>
+		</thead>
+		</table>
+		</div>
+		</section>
+		
+		<section class="tag clearfix" id="xlts">
+		<div class="tag-nav">
+			<h1>其他信息</h1>
+		</div>
+		<div class="content-txt">
+		<table border="0" cellpadding="0" cellspacing="0">
+                        <tbody><tr>
+                            <td >（<span class="color_e74c3c">*</span>）经办人</td>
+                            <td>
+                                <input name="agentName" type="text" id="agentName" class="required" /></td>
+                            <td >（<span class="color_e74c3c">*</span>）联系方式</td>
+                            <td>
+                                <input name="agentPhone" type="text" id="agentPhone" class="required" /></td>
+                        </tr>
+                        <tr>
+                            <td >游客备注</td>
+                            <td colspan="3">
+                                <textarea name="touristRemark" id="touristRemark" class="Remark_cls"></textarea>
+                                <div class="confirm_Remark" onclick="PageUI.CopyRemarksTourists()">复制游客备注</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td >同行备注</td>
+                            <td colspan="3">
+                                <textarea name="peerRemarks" id="peerRemarks" placeholder="此内容可备注特殊需求等给供应商查看" ></textarea></td>
+                        </tr>
+                        <tr>
+                            <td >门店备注</td>
+                            <td colspan="3">
+                                <textarea name="buyerRemark" id="buyerRemark" placeholder="此内容八爪鱼 供应商 游客均不可见" ></textarea></td>
+                        </tr>
+                        
+                    </tbody></table>
+		</div>
+		</section>
+		
+		<section class="tag clearfix" id="xlts">
+		<div class="tag-nav">
+			<h1>补差价</h1>
+			<span style="float:right;border:1px solid #e7e7e7;padding:5px;" onclick="addMend()">+</span>
+		</div>
+		<div class="content-txt">
+		<table border="0" cellpadding="0" cellspacing="0" id="mend_info">
+			 
+		</table>
+		</div>
+		</section>
+		
+		<section class="tag clearfix" id="xlts">
+		<div class="tag-nav">
+			<h1>游客结算</h1>
+		</div>
+		<div class="content-txt">
+		<table border="0" cellpadding="0" cellspacing="0" id="tbTouristSettle">
+                        <thead>
+                            <tr>
+                                <td>项目</td>
+                                <td>金额</td>
+                                <td style="display: table-cell;">结算金额</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="Settle_title">旅游费</td>
+                                <td><span class="order_money">￥<i id="ioderPrice">1797</i></span></td>
+                                <td style="display: table-cell;"><span class="order_money">￥<i id="itravelsettlement">1557</i></span></td>
+                            </tr>
+                            <tr>
+                                <td class="Settle_title">补房差</td>
+                                <td><span class="room_money">￥<i id="iSingleRoomPrice">0</i></span></td>
+                                <td style="display: table-cell;"><span class="room_money">￥<i id="iSingleRoomSettlementPrice">0</i></span></td>
+                            </tr>
+                            <tr>
+                                <td class="Settle_title">接送费用</td>
+                                <td><span class="give_money">￥<i id="iShuttleFee">0</i></span></td>
+                                <td style="display: table-cell;"><span class="give_money">￥<i id="iShuttleFeeSettlement">0</i></span></td>
+                            </tr>
+                            
+                            <tr>
+                                <td class="Settle_title">补差价</td>
+                                <td><span class="Insurance_money">￥<i id="iTopping">0</i></span></td>
+                                <td style="display: table-cell;"><span class="Insurance_money">￥<i id="iToppingSettlement">0</i></span></td>
+                            </tr>
+                            <tr style="display: none;">
+                                <td class="Settle_title">优惠金额</td>
+                                <td><span class="Favorable_money">￥<i>-<input type="text" style="width: 40px;" value="0" onblur="PageUI.Preferential($(this))" id="txtFavorableMoney"></i></span></td>
+                                <td style="display: table-cell;">--</td>
+                            </tr>
+                            <tr id="trDailyStatement" style="display: none;">
+                                <td class="Settle_title">日结优惠</td>
+                                <td>--</td>
+                                <td style="display: table-cell;">￥-<i id="iDailyStatement">0</i></td>
+                            </tr>
+
+                        </tbody>
+                        <tbody id="ContentPlaceHolder1_tbodyActivity" style="display: table-row-group;"></tbody>
+                    </table>
+		</div>
+		</section>
+		
+		<section>
+			<div style="border:1px solid #e7e7e7;padding:5px;">▲此团需满16人开班且为特价综合线路！ <br/>
+			<p>
+				▲由于旅行社组织的是散客拼团线路，未成年人须有成人陪伴出游，残疾人、老年人、行动不便者建议有家人朋友照顾同行，体弱多病及孕妇不建议参团，否则由此造成的不便或问题，我社不承担责任。
+			</p>
+			</div>
+		    <div style='margin-top:5px;'><input type="submit" value="提交订单" class="submit"/></div>   
+		</section>
+		
+		</section>
+		<section class="w310"> 
+		<section class="tag issue clearfix">
+		<div class="tag-nav">
+			<h1>
+				<a>结算</a>
+			</h1>
+		</div>
+		<div class="item clearfix">
+			
+			<input id="userInfo" name="userInfo" />
+			<input id="mendInfo" name="mendInfo"/>
+				<input id="amount" name="amount" value="${rewardAmount!}" /> <input
+					id="contentId" name="contentId" value="${contentId!}" />
+				<table style="width: 100%;">
+					<tr>
+						<td>成人X1</td>
+						<td></td>
+						<td>1</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>总计：</td>
+						<td>1元</td>
+					</tr>
+				</table>
+				<div style="float: right;">
+					<input type="submit" value="提交订单" />
+				</div>
+			
+		</div>
+		</section>
+		<section class="tag issue clearfix">
+		<div class="tag-nav">
+			<h1>
+				<a>座次</a>
+			</h1>
+		</div>
+		<div class="item clearfix">
+			<ul id="ulSeatLsit"><li class="s_hover" number="1">1</li><li class="s_hover" number="2">2</li><li class="no_table"></li><li class="s_hover" number="3">3</li><li class="s_hover" number="4">4</li><li class="s_hover" number="5">5</li><li class="s_hover" number="6">6</li><li class="no_table"></li><li class="s_hover" number="7">7</li><li class="s_hover" number="8">8</li><li class="s_hover" number="9">9</li><li class="s_hover" number="10">10</li><li class="no_table"></li><li number="11" class="s_sel">11</li><li number="12" class="">12</li><li number="13" class="">13</li><li number="14">14</li><li class="no_table"></li><li number="15">15</li><li number="16">16</li><li number="17">17</li><li number="18">18</li><li class="no_table"></li><li number="19">19</li><li number="20">20</li><li number="21">21</li><li number="22">22</li><li class="no_table"></li><li number="23">23</li><li number="24">24</li><li number="25">25</li><li number="26">26</li><li class="no_table"></li><li number="27">27</li><li number="28">28</li><li number="29">29</li><li number="30">30</li><li class="no_table"></li><li number="31">31</li><li number="32">32</li><li number="33">33</li><li number="34">34</li><li class="no_table"></li><li number="35">35</li><li number="36">36</li><li number="37">37</li><li number="38">38</li><li class="no_table"></li><li number="39">39</li><li number="40">40</li><li number="41">41</li><li number="42">42</li><li class="no_table"></li><li number="43">43</li><li number="44">44</li><li number="45">45</li><li number="46">46</li><li class="no_table"></li><li number="47">47</li><li number="48">48</li><li number="49">49</li><li number="50">50</li><li number="51">51</li><li number="52">52</li><li number="53">53</li></ul>	
+		</div>
+		</section>
+		</section>
+</form>
+	</div>
+
+	[#include "../include/footer.html"/] [#include
+	"../include/right-fixed.html"/]
+</body>
+</html>
