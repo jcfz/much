@@ -6,7 +6,7 @@
 		</encoder>
 	</appender>
 	<appender name="fileAppender" class="ch.qos.logback.core.FileAppender">  
-	    <file>/home/ubuntu/apache-tomcat-7.0.82/logs/v8flogback.log</file>  
+	    <file>./v8flogback.log</file>  
 	    <encoder><!-- 必须指定，否则不会往文件输出内容 -->  
 	        <pattern>%d{HH:mm:ss.SSS} %-5level %logger{80} - %msg%n</pattern>  
 	    </encoder>  
